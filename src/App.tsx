@@ -6,24 +6,25 @@ import { Entry } from './type';
 const uri = 'https://api.eia.gov/v2/international/data?api_key=KJp8vTK2mo4zf4j84qoN9lQn283ryzeyRvTnMK0v&facets[unit][]=MTOE&frequency=annual'
 
 let App = () => {
-  const [entryList, setEntryList] = React.useState([])
-  fetch(uri)
-  .then(
-    response => response.json()
-  )
-  .then(
-    json => setEntryList(json?.response?.data.map(
-      (dataEntry : any) : Entry => {
-        return {
-            year: dataEntry?.period as number,
-            country: dataEntry?.countryRegionName as string,
-            product: dataEntry?.productName as string,
-            activity: dataEntry?.activityName as string
+  const [entryList, setEntryList] = React.useState<Array<Entry>>([])
+  React.useEffect(() => {
+    fetch(uri)
+    .then(
+      response => response.json()
+    )
+    .then(
+      json => setEntryList(json?.response?.data.map(
+        (dataEntry : any) : Entry => {
+          return {
+              year: dataEntry?.period as number,
+              country: dataEntry?.countryRegionName as string,
+              product: dataEntry?.productName as string,
+              activity: dataEntry?.activityName as string
+          }
         }
-      }
-    ))
-  )
-  .catch()
+      ))
+    )
+    .catch()}, [])
 
   return (
       <React.Fragment>
