@@ -12,7 +12,7 @@ let App = () => {
     response => response.json()
   )
   .then(
-    body => setEntryList(body?.response?.data.map(
+    json => setEntryList(json?.response?.data.map(
       (dataEntry : any) : Entry => {
         return {
             year: dataEntry?.period as number,
